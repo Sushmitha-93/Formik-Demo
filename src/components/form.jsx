@@ -1,5 +1,6 @@
 import React, { Fragment } from "react";
 import { Formik } from "formik";
+import * as Yup from "yup";
 
 const Basic = () => (
   <div>
@@ -18,6 +19,9 @@ const Basic = () => (
       // validate() gets called on every keystroke/onChange event.
       // And errors{} will have error message of all values/initial values at that moment.
       // Which is awkward because it will show error message for all fields that werent visted yet.
+      // Formik's handleBlur keeps list of visited fields in 'visited' object.
+      // We can use visted to conditionally render error message, if a user has visited a given field.
+      /* 
       validate={(values) => {
         const errors = {};
         if (!values.quizTitle) errors.quizTitle = "Required";
@@ -29,6 +33,26 @@ const Basic = () => (
         if (!values.duration) errors.duration = "Required";
         return errors;
       }}
+      */
+
+      // Replacing validate with Yup validation
+      // Formik has speacial configuration prop/object for Yup.
+      // It automatically transforms yup validation errors into pretty object with keys that match values/ initialValues/ touched
+      validationSchema={Yup.object({
+        quizTitle: Yup.string()
+          .max(15, "Must be 15 characters or less")
+          .required("Required"),
+        branch: Yup.string().required("Please select branch."),
+        sem: Yup.number().required("Please enter sem."),
+        section: Yup.string()
+          .length(1, "Must be one letter")
+          .required("Please enter section"),
+        attempts: Yup.number().required("Please enter number of attempts"),
+        marks: Yup.number().required("Please enter marks"),
+        duration: Yup.number().required("Please enter duration."),
+        startDate: Yup.date().required("Please enter start date."),
+        endDate: Yup.date().required("Please enter end date"),
+      })}
       onSubmit={(values, { setSubmitting }) => {
         setTimeout(() => {
           alert(JSON.stringify(values, null, 2));
