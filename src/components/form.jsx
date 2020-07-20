@@ -41,15 +41,21 @@ const Basic = () => (
       validationSchema={Yup.object({
         quizTitle: Yup.string()
           .max(15, "Must be 15 characters or less")
-          .required("Required"),
+          .required("Please enter quiz name"),
         branch: Yup.string().required("Please select branch."),
         sem: Yup.number().required("Please enter sem."),
         section: Yup.string()
           .length(1, "Must be one letter")
           .required("Please enter section"),
-        attempts: Yup.number().required("Please enter number of attempts"),
-        marks: Yup.number().required("Please enter marks"),
-        duration: Yup.number().required("Please enter duration."),
+        attempts: Yup.number("Attempts must be number").required(
+          "Please enter number of attempts"
+        ),
+        marks: Yup.number("Marks must be number").required(
+          "Please enter marks"
+        ),
+        duration: Yup.number("Enter number of minutes").required(
+          "Please enter duration in mins"
+        ),
         startDate: Yup.date().required("Please enter start date."),
         endDate: Yup.date().required("Please enter end date"),
       })}
@@ -80,13 +86,18 @@ const Basic = () => (
                   </label>
                   <div class="col-sm-10">
                     <input
-                      class="form-control"
+                      class={
+                        errors.quizTitle && touched.quizTitle
+                          ? "form-control is-invalid"
+                          : "form-control"
+                      }
                       id="quizTitle"
                       placeholder="Enter Quiz Title"
                       onChange={handleChange}
                       onBlur={handleBlur}
                       value={values.quizTitle}
                     />
+                    <div className="invalid-feedback">{errors.quizTitle}</div>
                   </div>
                 </div>
 
@@ -97,7 +108,11 @@ const Basic = () => (
                   <div class="col-sm-6">
                     <select
                       id="branch"
-                      className="form-control"
+                      className={
+                        errors.branch && touched.branch
+                          ? "form-control is-invalid"
+                          : "form-control"
+                      }
                       onChange={handleChange}
                       onBlur={handleBlur}
                       value={values.branch}
@@ -105,6 +120,7 @@ const Basic = () => (
                       <option defaultValue>Select Branch</option>
                       <option>Computer Science</option>
                     </select>
+                    <div className="invalid-feedback">{errors.branch}</div>
                   </div>
 
                   <label for="sem" class="col-form-label">
@@ -113,7 +129,11 @@ const Basic = () => (
                   <div class="col">
                     <select
                       id="sem"
-                      className="form-control"
+                      className={
+                        errors.sem && touched.sem
+                          ? "form-control is-invalid"
+                          : "form-control"
+                      }
                       onChange={handleChange}
                       onBlur={handleBlur}
                       value={values.sem}
@@ -123,6 +143,7 @@ const Basic = () => (
                         <option key={s}>{s}</option>
                       ))}
                     </select>
+                    <div className="invalid-feedback">{errors.sem}</div>
                   </div>
                 </div>
 
@@ -133,7 +154,11 @@ const Basic = () => (
                   <div class="col">
                     <select
                       id="section"
-                      className="form-control"
+                      className={
+                        errors.section && touched.section
+                          ? "form-control is-invalid"
+                          : "form-control"
+                      }
                       onChange={handleChange}
                       onBlur={handleBlur}
                       value={values.section}
@@ -142,6 +167,7 @@ const Basic = () => (
                       <option>A</option>
                       <option>B</option>
                     </select>
+                    <div className="invalid-feedback">{errors.section}</div>
                   </div>
 
                   <label for="marks" class=" col-form-label">
@@ -149,13 +175,18 @@ const Basic = () => (
                   </label>
                   <div class="col">
                     <input
-                      class="form-control"
+                      class={
+                        errors.marks && touched.marks
+                          ? "form-control is-invalid"
+                          : "form-control"
+                      }
                       id="marks"
                       placeholder="Total"
                       onChange={handleChange}
                       onBlur={handleBlur}
                       value={values.marks}
                     />
+                    <div className="invalid-feedback">{errors.marks}</div>
                   </div>
 
                   <label for="attempts" class="col-form-label">
@@ -163,13 +194,18 @@ const Basic = () => (
                   </label>
                   <div class="col">
                     <input
-                      class="form-control"
+                      class={
+                        errors.attempts && touched.attempts
+                          ? "form-control is-invalid"
+                          : "form-control"
+                      }
                       id="attempts"
                       placeholder="No. of Attempts"
                       onChange={handleChange}
                       onBlur={handleBlur}
                       value={values.attempts}
                     />
+                    <div className="invalid-feedback">{errors.attempts}</div>
                   </div>
                 </div>
                 <div class="form-group row">
@@ -178,44 +214,62 @@ const Basic = () => (
                   </label>
                   <div class="col">
                     <input
-                      class="form-control"
+                      class={
+                        errors.duration && touched.duration
+                          ? "form-control is-invalid"
+                          : "form-control"
+                      }
                       id="duration"
                       placeholder="minutes"
                       onChange={handleChange}
                       onBlur={handleBlur}
                       value={values.duration}
                     />
+                    <div className="invalid-feedback">{errors.duration}</div>
                   </div>
-                  <label for="startDate" class=" col-form-label">
+                  <label for="startDate" className=" col-form-label">
                     Start Date:
                   </label>
-                  <div class="col">
+                  <div className="col">
                     <input
-                      class="form-control"
+                      className={
+                        errors.startDate && touched.startDate
+                          ? "form-control is-invalid"
+                          : "form-control"
+                      }
                       id="startDate"
                       placeholder=""
                       onChange={handleChange}
                       onBlur={handleBlur}
                       value={values.startDate}
                     />
+                    <div className="invalid-feedback">{errors.startDate}</div>
                   </div>
-                  <label for="endDate" class="col-form-label">
+                  <label for="endDate" className="col-form-label">
                     End Date:
                   </label>
-                  <div class="col">
+                  <div className="col">
                     <input
-                      class="form-control"
+                      className={
+                        errors.endDate && touched.endDate
+                          ? "form-control is-invalid"
+                          : "form-control"
+                      }
                       id="endDate"
                       placeholder=""
                       onChange={handleChange}
                       onBlur={handleBlur}
                       value={values.endDate}
                     />
+                    <div className="invalid-feedback">{errors.endDate}</div>
                   </div>
                 </div>
-                <div class="form-group row">
-                  <div class="col-sm-10">
-                    <button type="submit" class="btn btn-primary float-left">
+                <div className="form-group row">
+                  <div className="col-sm-10">
+                    <button
+                      type="submit"
+                      className="btn btn-primary float-left"
+                    >
                       Submit
                     </button>
                   </div>
@@ -223,6 +277,7 @@ const Basic = () => (
               </form>
             </div>
           </div>
+          {/* To display content of 'value', 'errors', 'touched' objects */}
           <div className="row">
             <pre className="col">
               {"values" + JSON.stringify(values, null, 2)}
